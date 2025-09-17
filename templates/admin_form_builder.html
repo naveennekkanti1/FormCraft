@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Admin Form Builder - RapiACT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-card: rgba(20, 20, 30, 0.8);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-accent: #4fc3f7;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow-light: 0 4px 15px rgba(0, 255, 255, 0.1);
+            --shadow-medium: 0 8px 30px rgba(0, 255, 255, 0.2);
+            --shadow-large: 0 15px 50px rgba(0, 255, 255, 0.3);
+            --gradient-primary: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            --gradient-secondary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-accent: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+            --glassmorphism: rgba(255, 255, 255, 0.05);
+            --backdrop-blur: blur(20px);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(79, 195, 247, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(118, 75, 162, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(102, 126, 234, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        /* Animated Stars Background */
+        .stars {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .star {
+            position: absolute;
+            width: 2px; height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Glassmorphic Navbar */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            max-width: 1400px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: var(--glassmorphism);
+            backdrop-filter: var(--backdrop-blur);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            z-index: 1000;
+            box-shadow: var(--shadow-medium);
+            transition: all 0.3s ease;
+        }
+        .navbar:hover {
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: var(--shadow-large);
+            border-color: rgba(79, 195, 247, 0.3);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-accent);
+            text-decoration: none;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+        }
+        .logo i {
+            margin-right: 12px;
+            font-size: 2.2rem;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 5px rgba(79, 195, 247, 0.5));
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .nav-link:hover {
+            color: var(--text-accent);
+            background: rgba(79, 195, 247, 0.1);
+            transform: translateY(-2px);
+        }
+        .logout-btn {
+            background: var(--gradient-danger);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow-light);
+        }
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 120px 60px 60px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Page Header */
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 24px;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(79, 195, 247, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 30px rgba(79, 195, 247, 0.3); }
+            to { text-shadow: 0 0 40px rgba(79, 195, 247, 0.5); }
+        }
+
+        /* Form Styles */
+        form {
+            background: var(--bg-card);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: var(--shadow-medium);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+        label {
+            display: block;
+            margin: 14px 0 8px;
+            font-weight: 600;
+        }
+        input[type=text], select, textarea {
+            width: 100%;
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid #555;
+            background: rgba(255,255,255,0.1);
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        input[type=text]:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--text-accent);
+            box-shadow: 0 0 8px var(--text-accent);
+            background: rgba(255,255,255,0.2);
+        }
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        button {
+            display: block;
+            margin-top: 24px;
+            padding: 16px 0;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: white;
+            background: var(--gradient-accent);
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            box-shadow: var(--shadow-medium);
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background: var(--gradient-primary);
+            box-shadow: var(--shadow-large);
+        }
+        .flash-message {
+            margin-bottom: 24px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #4fc3f7;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Stars Background -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <i class="fas fa-rocket"></i>
+            Admin Panel
+        </a>
+        <div class="nav-right">
+            <a href="{{ url_for('admin_send_email') }}" class="nav-link"><i class="fas fa-envelope"></i> Notifications</a>
+            <button class="logout-btn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <h1>Admin Form Builder ({{ form_id }})</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-message">
+                {% for category, message in messages %}
+                    <div>{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+
+        <form method="post">
+            <label for="form_title">Form Title</label>
+            <input type="text" name="form_title" id="form_title" value="{{ title }}" required />
+
+            <label for="status">Form Status</label>
+            <select name="status" id="status">
+                <option value="open" {% if status == 'open' %}selected{% endif %}>Open - Accepting Responses</option>
+                <option value="closed" {% if status == 'closed' %}selected{% endif %}>Closed - Not Accepting Responses</option>
+            </select>
+
+            <label for="form_schema_json">Edit Form Schema JSON</label>
+            <textarea name="form_schema_json" aria-label="Form Schema JSON">{{ form_schema|tojson(indent=2) }}</textarea>
+
+            <button type="submit">Save Form Schema</button>
+        </form>
+
+        <!-- <div class="nav-links" style="margin-top: 32px;">
+            <a href="{{ url_for('admin_form_submissions', form_id=form_id) }}">View Submissions</a> |
+            <a href="{{ url_for('admin_send_email') }}">Send Email</a> |
+            <a href="{{ url_for('user_dynamic_form', form_id=form_id) }}" target="_blank" rel="noopener">View User Form</a>
+        </div> -->
+    </main>
+
+<script>
+    // Generate random stars
+    function generateStars() {
+        const starsContainer = document.getElementById('stars');
+        const numStars = 100;
+
+        for (let i = 0; i < numStars; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            starsContainer.appendChild(star);
+        }
+    }
+
+    // Handle logout
+    function handleLogout() {
+        if (confirm('Are you sure you want to logout from the Cosmic Control Center?')) {
+            window.location.href = '/logout';
+        }
+    }
+
+    // Initialize stars on DOM ready
+    document.addEventListener('DOMContentLoaded', generateStars);
+</script>
+</body>
+</html>

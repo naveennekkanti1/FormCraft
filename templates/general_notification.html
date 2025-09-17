@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ subject }}</title>
+    <style>
+        body {
+            background: #f4f6fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #222;
+            margin:0; padding:0;
+        }
+        .email-wrapper {
+            max-width: 485px;
+            margin: 36px auto;
+            background: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 7px 30px #7c4dff1e;
+            padding: 38px 40px;
+            border-top: 7px solid #a259fd;
+        }
+        h1 {
+            color: #a259fd;
+            font-size: 22px;
+            margin-bottom: 14px;
+            font-weight: 900;
+        }
+        p {
+            font-size: 15px;
+            margin: 0 0 18px 0;
+        }
+        .action-btn {
+            background: linear-gradient(90deg, #a259fd, #07f2d7);
+            color: white !important;
+            padding: 15px 34px;
+            margin-top: 18px; margin-bottom: 18px;
+            font-weight: 700;
+            font-size: 15px;
+            border-radius: 30px;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 0.5px;
+            box-shadow: 0 5px 24px #07f2d722;
+            border: none;
+        }
+        .footer {
+            color: #888;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 36px;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-wrapper">
+        <h1>RapiACT!❤️</h1>
+        <p>Dear User,</p>
+        <p>{{ message_body }}</p>
+        {% if action_url %}
+        <a href="{{ action_url }}" class="action-btn" target="_blank">Take Action</a>
+        {% endif %}
+        <p>Thank you for trusting RapiACT Healthcare.</p>
+        <p class="footer">&copy; 2025 RapiACT | All rights reserved</p>
+    </div>
+</body>
+</html>

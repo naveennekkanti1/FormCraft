@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>{{ form_title }}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f9f9fe;
+            margin: 40px auto;
+            max-width: 600px;
+            color: #222;
+        }
+        h2 {
+            text-align: center;
+            color: #667EEA;
+            margin-bottom: 28px;
+        }
+        form {
+            background: white;
+            padding: 28px 30px;
+            border-radius: 18px;
+            box-shadow: 0 6px 18px rgb(102 126 234 / 0.3);
+        }
+        label {
+            font-weight: 700;
+            display: block;
+            margin-top: 18px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 11px 14px;
+            margin-top: 6px;
+            border-radius: 10px;
+            border: 1.9px solid #667EEA44;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        .rating-star {
+            font-size: 28px;
+            color: lightgray;
+            cursor: pointer;
+        }
+        .rating-star.checked {
+            color: #f0a500;
+        }
+        .rating-container {
+            margin-top: 6px;
+        }
+        button {
+            margin-top: 30px;
+            width: 100%;
+            padding: 16px;
+            font-weight: 700;
+            font-size: 18px;
+            color: white;
+            background: #667EEA;
+            border: none;
+            border-radius: 35px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px #667EEAaa;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #5562ca;
+        }
+        .flash-message {
+            text-align: center;
+            margin: 16px 0;
+            color: #228B22;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <h2>{{ form_title }}</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-message">
+          {% for category, msg in messages %}
+            {{ msg }}
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    <form method="post" novalidate>
+        {% for field in form_schema %}
+            <label for="{{ field.name }}">{{ field.label }}{% if field.required %} *{% endif %}</label>
+            {% if field.type == 'textarea' %}
+                <textarea id="{{ field.name }}" name="{{ field.name }}" {% if field.required %}required{% endif %}></textarea>
+            {% elif field.type == 'rating' %}
+                <div class="rating-container" id="{{ field.name }}">
+                    {% for i in range(1, field.scale + 1) %}
+                    <span class="rating-star" data-value="{{ i }}">&#9733;</span>
+                    {% endfor %}
+                </div>a
+                <input type="hidden" name="{{ field.name }}" id="{{ field.name }}_input" {% if field.required %} required {% endif %} />
+            {% else %}
+                <input type="{{ field.type }}" id="{{ field.name }}" name="{{ field.name }}" {% if field.required %}required{% endif %} />
+            {% endif %}
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
+<script>
+    // Rating star logic
+    document.querySelectorAll('.rating-container').forEach(container => {
+        const stars = container.querySelectorAll('.rating-star');
+        const hiddenInput = document.getElementById(container.id + '_input');
+        stars.forEach((star, idx) => {
+            star.addEventListener('click', () => {
+                stars.forEach((s, i) => s.classList.toggle('checked', i <= idx));
+                hiddenInput.value = idx + 1;
+            });
+        });
+    });
+</script>
+</body>
+</html>
