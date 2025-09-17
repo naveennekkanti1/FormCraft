@@ -1,8 +1,6 @@
 flask
+pandas
 flask-pymongo
-werkzeug
-python-docx
+pymongo
 flask-mail
-
-
 
