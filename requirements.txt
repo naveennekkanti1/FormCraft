@@ -1,9 +1,8 @@
 flask
 flask-pymongo
-pymongo
 werkzeug
-bson
 python-docx
 flask-mail
+
 
 
