@@ -15,6 +15,10 @@ from functools import wraps
 import json
 import pandas as pd
 import io
+from dotenv import load_dotenv
+import os
+
+load_dotenv()  
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY")
@@ -298,4 +302,5 @@ def logout():
     session.clear()
     flash("You have been logged out.", "success")
     return redirect(url_for('home'))
+
 
