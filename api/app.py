@@ -15,23 +15,19 @@ from functools import wraps
 import json
 import pandas as pd
 import io
-from dotenv import load_dotenv
-import os
-
-load_dotenv()  
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY")
-app.config['MONGO_URI'] = os.environ.get("MONGO_URI")
+app.secret_key = 'your_secret_key_here'
+app.config['MONGO_URI'] = app.config['MONGO_URI'] = "mongodb+srv://durganaveen:nekkanti@cluster0.8nibi9x.mongodb.net/RAPACT?retryWrites=true&w=majority&appName=Cluster0"
 client = MongoClient(app.config['MONGO_URI'])
 db = client['RAPACT']
 users_collection = db['users']
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.environ.get("MAIL_USERNAME")
-app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get("MAIL_DEFAULT_SENDER")
+app.config['MAIL_USERNAME'] = 'srmcorporationservices@gmail.com'
+app.config['MAIL_PASSWORD'] = 'bxxo qcvd njfj kcsa'
+app.config['MAIL_DEFAULT_SENDER'] = 'srmcorporationservices@gmail.com'
 otp_store = {}  
 mail = Mail(app)
 
@@ -302,7 +298,5 @@ def logout():
     session.clear()
     flash("You have been logged out.", "success")
     return redirect(url_for('home'))
-
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=5000, debug=True)
